@@ -1,7 +1,7 @@
 RTV = RTV or {}
 
 RTV.ChatCommands = {
-	
+
 	"!rtv",
 	"/rtv",
 	"rtv"
@@ -10,7 +10,7 @@ RTV.ChatCommands = {
 
 RTV.TotalVotes = 0
 
-RTV.Wait = 60 -- The wait time in seconds. This is how long a player has to wait before voting when the map changes. 
+RTV.Wait = 60 -- The wait time in seconds. This is how long a player has to wait before voting when the map changes.
 
 RTV._ActualWait = CurTime() + RTV.Wait
 
@@ -28,7 +28,7 @@ function RTV.Start()
 			if GAMEMODE_NAME == "terrortown" then
 				net.Start("RTV_Delay")
         		net.Broadcast()
- 
+
 				hook.Add("TTTEndRound", "MapvoteDelayed", function()
 					MapVote.Start(nil, nil, nil, nil)
 				end)
@@ -81,7 +81,7 @@ end )
 
 function RTV.CanVote( ply )
 	local plyCount = table.Count(player.GetAll())
-	
+
 	if RTV._ActualWait >= CurTime() then
 		return false, "You must wait a bit before voting!"
 	end

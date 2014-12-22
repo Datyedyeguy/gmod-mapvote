@@ -5,9 +5,7 @@ MapVote is a wonderful little GMOD13 addon originally made by [Willox](http://st
 
 It recieved many suggestions and additions in it's [original facepunch thread](http://facepunch.com/showthread.php?t=1268353).
 
-This is my version which takes many of the additions and suggestions, and impliements them in one, simple, configurable addon.
-
-[You can also get this addon through steam workshop!](http://steamcommunity.com/sharedfiles/filedetails/?id=151583504)
+This is my version which takes many of the additions and suggestions added by [tyrantelf](https://github.com/tyrantelf/gmod-mapvote) and add a few new features that I use on my own server.
 
 Usage
 =======================
@@ -46,7 +44,7 @@ You can edit the config.txt located in garrysmod/data/mapvote/ to change several
 * "EnableCooldown" is a true/false variable on whether to remove a map from voting for a while after it's played.
 * "MapsBeforeRevote" is how many maps before the map is taken off the cooldown list after it's played.
 
-To add more Map Prefixes, do this: 
+To add more Map Prefixes, do this:
 ```JSON
 {"RTVPlayerCount":3,"MapLimit":24,"TimeLimit":28,"AllowCurrentMap":false,"MapPrefixes":{"1":"ttt_","2":"zm_","3":"de_"},"MapsBeforeRevote":3,"EnableCooldown":true}
 ```
@@ -57,12 +55,9 @@ Featuress added made by others:
 * RTV Implimentation by [Eccid](http://facepunch.com/member.php?u=536187)
 * ULX integration by [Ambro](http://facepunch.com/member.php?u=555824)
 * RTV vote delay to end of TTT and Deathrun rounds (Thanks Again, Willox!)
-
-My Feature Additions:
 * CoolDown System
 * JSON config that auto-generates at garrysmod/data/mapvote/config.txt
 * Automatically working with TTT and Deathun
 
-Planned Feature Additions:
-* Enable/Disable on RTV delay to round end on TTT and Deathrun
-* Config to give extra voting power
+My Feature Additions:
+* Allow gamemode voting along with map

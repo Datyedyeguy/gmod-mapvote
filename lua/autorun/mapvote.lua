@@ -7,8 +7,8 @@ MapVoteConfigDefault = {
     TimeLimit = 28,
     AllowCurrentMap = false,
     EnableCooldown = true,
-    MapsBeforeRevote = 3,
-    RTVPlayerCount = 3,
+    MapsBeforeRevote = 1,
+    RTVPlayerCount = 1,
     MapPrefixes = {"ttt_"}
     }
 --Default Config
@@ -27,7 +27,7 @@ function MapVote.HasExtraVotePower(ply)
 	--[[
     if ply:IsAdmin() then
 		return true
-	end 
+	end
     ]]
 
 	return false
