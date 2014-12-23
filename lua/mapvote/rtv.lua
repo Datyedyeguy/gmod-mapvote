@@ -30,19 +30,19 @@ function RTV.Start()
         		net.Broadcast()
 
 				hook.Add("TTTEndRound", "MapvoteDelayed", function()
-					MapVote.Start(nil, nil, nil, nil)
+					MapVote.Start(nil, nil, nil)
 				end)
 			elseif GAMEMODE_NAME == "deathrun" then
 				net.Start("RTV_Delay")
         		net.Broadcast()
 
 				hook.Add("RoundEnd", "MapvoteDelayed", function()
-					MapVote.Start(nil, nil, nil, nil)
+					MapVote.Start(nil, nil, nil)
 				end)
 			else
 				PrintMessage( HUD_PRINTTALK, "The vote has been rocked, map vote imminent")
 				timer.Simple(4, function()
-					MapVote.Start(nil, nil, nil, nil)
+					MapVote.Start(nil, nil, nil)
 				end)
 			end
 end

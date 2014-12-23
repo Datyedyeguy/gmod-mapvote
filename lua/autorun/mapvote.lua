@@ -7,9 +7,8 @@ MapVoteConfigDefault = {
     TimeLimit = 28,
     AllowCurrentMap = false,
     EnableCooldown = true,
-    MapsBeforeRevote = 1,
-    RTVPlayerCount = 1,
-    MapPrefixes = {"ttt_"}
+    MapsBeforeRevote = 3,
+    RTVPlayerCount = 3
     }
 --Default Config
 

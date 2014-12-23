@@ -55,59 +55,30 @@ function CoolDownDoStuff()
     file.Write("mapvote/recentmaps.txt", util.TableToJSON(recentmaps))
 end
 
-function MapVote.Start(length, current, limit, prefix, callback)
+function MapVote.Start(length, current, limit, callback)
     current = current or MapVote.Config.AllowCurrentMap or false
     length = length or MapVote.Config.TimeLimit or 28
     limit = limit or MapVote.Config.MapLimit or 24
     cooldown = MapVote.Config.EnableCooldown or MapVote.Config.EnableCooldown == nil and true
-    prefix = prefix or MapVote.Config.MapPrefixes
 
-    local is_expression = false
-
-    if not prefix then
-        local info = file.Read(GAMEMODE.Folder.."/"..GAMEMODE.FolderName..".txt", "GAME")
-
-        if(info) then
-            local info = util.KeyValuesToTable(info)
-            prefix = info.maps
-        else
-            error("MapVote Prefix can not be loaded from gamemode")
-        end
-
-        is_expression = true
-    else
-        if prefix and type(prefix) ~= "table" then
-            prefix = {prefix}
-        end
-    end
-
-    local maps = file.Find("maps/*.bsp", "GAME")
-
+    -- Load up maps via custom mapcycle files per gamemode
+    local maplists = file.Find("cfg/mapcycle_*.txt", "MOD")
     local vote_maps = {}
-
     local amt = 0
 
-    for k, map in RandomPairs(maps) do
-        local mapstr = map:sub(1, -5):lower()
-        if(not current and game.GetMap():lower()..".bsp" == map) then continue end
-        if(cooldown and table.HasValue(recentmaps, map)) then continue end
+    for i, maplist in RandomPairs(maplists) do
+      local gamemode = maplist:sub(10, -5):lower()
+      local maps = lines(file.Read("cfg/"..maplist, "MOD"))
 
-        if is_expression then
-            if(string.find(map, prefix)) then -- This might work (from gamemode.txt)
-                vote_maps[#vote_maps + 1] = MapVote.GenerateMapValue(map:sub(1, -5), "gamemode")
-                amt = amt + 1
-            end
-        else
-            for k, v in pairs(prefix) do
-                if string.find(map, "^"..v) then
-                    vote_maps[#vote_maps + 1] = MapVote.GenerateMapValue(map:sub(1, -5), "gamemode")
-                    amt = amt + 1
-                    break
-                end
-            end
-        end
+      for k, map in RandomPairs(maps) do
+        if(not current and game.GetMap():lower() == map) then continue end
+        if(cooldown and table.HasValue(recentmaps, map..".bsp")) then continue end
+
+        vote_maps[#vote_maps + 1] = MapVote.GenerateMapValue(map, gamemode)
+        amt = amt + 1
 
         if(limit and amt >= limit) then break end
+      end
     end
 
     net.Start("RAM_MapVoteStart")
@@ -157,17 +128,17 @@ function MapVote.Start(length, current, limit, prefix, callback)
 
         local map = MapVote.CurrentMaps[winner]
 
-
-
         timer.Simple(4, function()
           local mapName, gamemode = MapVote.ParseMapValue(map)
-            if (hook.Run("MapVoteChange", mapName) != false) then
-                if (callback) then
-                    callback(map)
-                else
-                    RunConsoleCommand("changelevel", mapName)
-                end
-            end
+
+          if (hook.Run("MapVoteChange", mapName) != false) then
+              if (callback) then
+                  callback(map)
+              else
+                  RunConsoleCommand("changelevel", mapName)
+                  RunConsoleCommand("gamemode", gamemode)
+              end
+          end
         end)
     end)
 end
@@ -189,11 +160,17 @@ function MapVote.Cancel()
     end
 end
 
-
-function MapVote.ParseMapValue(value)
-  return string:match("([^|]+)|([^|+])")
+function MapVote.ParseMapValue(str)
+  return str:match("([^|]+)|([^|]+)")
 end
 
 function MapVote.GenerateMapValue(map, gamemode)
   return map.."|"..gamemode
+end
+
+function lines(str)
+  local t = {}
+  local function helper(line) table.insert(t, line) return "" end
+  helper((str:gsub("(.-)\r?\n", helper)))
+  return t
 end

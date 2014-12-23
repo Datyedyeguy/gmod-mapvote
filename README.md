@@ -13,9 +13,9 @@ Usage
 Starting a vote from within lua is rather simple.
 
 ```Lua
-MapVote.Start(voteLength, allowCurrentMap, mapLimit, mapPrefix)
+MapVote.Start(voteLength, allowCurrentMap, mapLimit)
 ```
-All arguments to this function are optional and the map prefix is acquired from the config, or if it isn't set, gamemode.txt file if available. You can also set up defaults within garrysmod/data/mapvote/config.txt which is generated during the first run.
+All arguments to this function are optional and are acquired from the config, or if it isn't set, gamemode.txt file if available. You can also set up defaults within garrysmod/data/mapvote/config.txt which is generated during the first run.
 
 It is also possible to cancel map votes from within lua with:
 ```Lua
@@ -33,21 +33,15 @@ You no longer have to edit any files for MapVote to work with Trouble in Terrori
 
 You can edit the config.txt located in garrysmod/data/mapvote/ to change several settings.  It should look like this by default (if it's empty, just copy this into it):
 ```JSON
-{"RTVPlayerCount":3,"MapLimit":24,"TimeLimit":28,"AllowCurrentMap":false,"MapPrefixes":{"1":"ttt_"},"MapsBeforeRevote":3,"EnableCooldown":true}
+{"RTVPlayerCount":3,"MapLimit":24,"TimeLimit":28,"AllowCurrentMap":false,"MapsBeforeRevote":3,"EnableCooldown":true}
 ```
 * "RTVPlayerCount" is the minimum number of players that need to be online (on TTT) for RTV to work.
 * "MapLimit" is the number of maps shown on the vote screen.
 * "TimeLimit" is how long the vote is shown for.
 * "AllowCurrentMap" true/false to allow a the current map in the map vote list.
-* "MapPrefixes" are the prefixes of the maps that should be used in the vote.
 * "MapsBeforeRevote" is the number of maps that must be played before a map is in the vote menu again (if EnableCooldown is true)
 * "EnableCooldown" is a true/false variable on whether to remove a map from voting for a while after it's played.
 * "MapsBeforeRevote" is how many maps before the map is taken off the cooldown list after it's played.
-
-To add more Map Prefixes, do this:
-```JSON
-{"RTVPlayerCount":3,"MapLimit":24,"TimeLimit":28,"AllowCurrentMap":false,"MapPrefixes":{"1":"ttt_","2":"zm_","3":"de_"},"MapsBeforeRevote":3,"EnableCooldown":true}
-```
 
 Modifications
 =======================
